@@ -1,0 +1,10 @@
+{
+  "name": "builtroot-main",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "license": "MIT",
+  "scripts": {
+    "build": "echo \"(root) no build\"",
+    "typecheck": "echo \"use per-package tsc\""
+  }
+}
