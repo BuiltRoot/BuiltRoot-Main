@@ -4,7 +4,6 @@ Tiny shared utilities library for BuiltRoot projects.
 
 ## Example
 
-```ts
-import { capitalize } from "@builtroot/utils";
+    import { capitalize } from "@builtroot/utils";
 
-console.log(capitalize("hello")); // "Hello")
+    console.log(capitalize("hello")); // "Hello")
