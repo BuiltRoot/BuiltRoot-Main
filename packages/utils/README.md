@@ -8,3 +8,4 @@ Tiny shared utilities library for BuiltRoot projects.
 import { capitalize } from "@builtroot/utils";
 
 console.log(capitalize("hello")); // "Hello")
+```
