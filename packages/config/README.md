@@ -11,7 +11,9 @@ module.exports = {
   extends: ["@builtroot/config/eslint.cjs"]
 };
 ```
+```js
 module.exports = require("@builtroot/config/prettier.cjs");
+```
 ```json
 {
   "extends": "@builtroot/config/tsconfig.json"
