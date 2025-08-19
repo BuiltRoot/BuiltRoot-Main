@@ -4,9 +4,9 @@
   "workspaces": ["packages/*"],
   "license": "MIT",
   "scripts": {
-  "dev:playground": "npm run dev --workspace=apps/playground",
-  "build": "npm run build --workspaces",
-  "typecheck": "npm run typecheck --workspaces",
-  "lint": "npm run lint --workspaces"
-}
+    "dev:playground": "npm run dev --workspace=apps/playground",
+    "build": "npm run build --workspaces",
+    "typecheck": "npm run typecheck --workspaces",
+    "lint": "npm run lint --workspaces"
+  }
 }
