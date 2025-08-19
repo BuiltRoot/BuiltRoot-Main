@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@builtroot/config/tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
