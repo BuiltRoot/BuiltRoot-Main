@@ -10,7 +10,12 @@ In your project’s `.eslintrc.cjs`:
 module.exports = {
   extends: ["@builtroot/config/eslint.cjs"]
 };
+```
+```js
 module.exports = require("@builtroot/config/prettier.cjs");
+```
+```js
 {
   "extends": "@builtroot/config/tsconfig.json"
 }
+```
