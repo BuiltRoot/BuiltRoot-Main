@@ -6,16 +6,22 @@ Shared configuration files (ESLint, Prettier, TypeScript) for BuiltRoot projects
 
 ### ESLint
 In your project’s `.eslintrc.cjs`:
-```js
+~~~js
 module.exports = {
   extends: ["@builtroot/config/eslint.cjs"]
 };
-```
-```js
+~~~
+
+### Prettier
+In your project’s `prettier.config.cjs`:
+~~~js
 module.exports = require("@builtroot/config/prettier.cjs");
-```
-```json
+~~~
+
+### TypeScript
+In your project’s `tsconfig.json`:
+~~~json
 {
   "extends": "@builtroot/config/tsconfig.json"
 }
-```
+~~~
