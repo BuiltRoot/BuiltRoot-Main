@@ -4,6 +4,11 @@
   "workspaces": ["packages/*"],
   "license": "MIT",
   "scripts": {
+    "dev:playground": "npm run dev --workspace=apps/playground",
+    "build": "npm run build --workspaces",
+    "typecheck": "npm run typecheck --workspaces",
+    "lint": "npm run lint --workspaces"
+  }
     "build": "echo \"(root) no build\"",
     "typecheck": "echo \"use per-package tsc\""
   }
