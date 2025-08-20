@@ -1,0 +1,35 @@
+name: Bug report
+description: Create a report to help us improve
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear and concise description of the bug.
+      placeholder: When I clicked X, Y happened instead of Z...
+    validations:
+      required: true
+  - type: input
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: 1) Go to..., 2) Click..., 3) See error...
+  - type: input
+    id: expected
+    attributes:
+      label: Expected behavior
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / logs
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - P0 (blocks work)
+        - P1 (major)
+        - P2 (minor)
+    validations:
+      required: true
