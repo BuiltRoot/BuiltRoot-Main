@@ -1,0 +1,21 @@
+name: CI
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci || echo "No package.json at repo root; skipping install"
+      - run: npm run lint --if-present
+      - run: npm test --if-present -- --ci
+      - run: npm run build --if-present
