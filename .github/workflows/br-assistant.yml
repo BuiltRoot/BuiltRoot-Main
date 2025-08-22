@@ -1,8 +1,11 @@
 name: BR Assistant
 on:
-  workflow_dispatch:          # lets you run it manually from Actions
+  workflow_dispatch:          # manual button; should succeed with a no-op
   pull_request:
     types: [opened, reopened, synchronize]
+
+# These permissions apply to GITHUB_TOKEN. We're using a PAT secret for API calls,
+# but leaving these here is fine and future-proofs if we switch to GITHUB_TOKEN later.
 permissions:
   contents: read
   pull-requests: write
@@ -13,11 +16,19 @@ jobs:
     name: br-assistant
     runs-on: ubuntu-latest
     steps:
+      # --- Manual run path (no PR context) ---
+      - name: Manual run sanity
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: echo "✅ BR Assistant manual run OK (no PR context)."
+
+      # --- PR path (has PR context) ---
       - name: Capture PR SHA
+        if: ${{ github.event_name == 'pull_request' }}
         id: sha
         run: echo "sha=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
 
       - name: Comment on PR
+        if: ${{ github.event_name == 'pull_request' }}
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.BR_ASSISTANT_TOKEN }}
@@ -32,6 +43,7 @@ jobs:
           });
 
       - name: Publish passing status
+        if: ${{ github.event_name == 'pull_request' }}
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.BR_ASSISTANT_TOKEN }}
