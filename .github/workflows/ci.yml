@@ -14,9 +14,24 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      # If there's no package.json at the root, this step will no-op safely.
-      - run: npm ci || echo "No package.json at repo root; skipping install"
+      # Only run Node steps if a package.json exists
+      - name: Install deps (safe)
+        if: hashFiles('package.json') != ''
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install --prefer-offline --no-audit --no-fund
+          fi
 
-      - run: npm run lint --if-present
-      - run: npm test --if-present -- --ci
-      - run: npm run build --if-present
+      - name: Lint
+        if: hashFiles('package.json') != ''
+        run: npm run lint --if-present
+
+      - name: Test
+        if: hashFiles('package.json') != ''
+        run: npm test --if-present -- --ci
+
+      - name: Build
+        if: hashFiles('package.json') != ''
+        run: npm run build --if-present
