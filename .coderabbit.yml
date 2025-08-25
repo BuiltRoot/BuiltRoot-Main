@@ -1,0 +1,89 @@
+meta:
+  project_name: BuiltRoot-Main
+  owner: BuiltRoot
+  mode: strict
+
+review:
+  summary: { enabled: true, max_lines: 20 }
+  style:
+    max_line_length: 100
+    forbid_trailing_whitespace: true
+    forbid_tabs: true
+  hygiene:
+    require_pr_description: true
+    require_changed_files: 1
+    require_branch_protection: true
+    require_codeowners: true
+    check_renames_and_deletes: true
+
+policies:
+  blocklisted_patterns:
+    - 'AKIA[0-9A-Z]{16}'
+    - '(?i)BEGIN RSA PRIVATE KEY'
+    - '(?i)password\s*='
+    - '(?i)api[_-]?key\s*[:=]'
+    - '\.env(\.|$)'
+  disallow_files:
+    - '**/*.log'
+    - '**/*.tmp'
+    - '**/.DS_Store'
+    - '**/Thumbs.db'
+  require_files_present:
+    - { path: '.github/PULL_REQUEST_TEMPLATE.md', message: 'PR template missing; keep reviews consistent.' }
+    - { path: '.github/workflows', message: 'Workflows folder required for CI/automation.' }
+    - { path: 'SECURITY.md', message: 'Security policy required.' }
+    - { path: 'CONTRIBUTING.md', message: 'Contributor guide required.' }
+
+checks:
+  javascript_typescript:
+    enabled: true
+    linters: { eslint: prefer-if-present }
+    forbid_console_log: true
+    prefer_strict_eq: true
+  node_project:
+    enabled: true
+    require_lockfile_if_pkg_json: false
+    npm_scripts_exist: [lint, test, build]
+  yaml_workflows:
+    enabled: true
+    paths: ['.github/workflows/*.yml', '.github/workflows/*.yaml']
+    validate_syntax: true
+    forbid_empty_on_block: true
+  markdown:
+    enabled: true
+    check_dead_links: false
+    max_heading_length: 80
+
+security:
+  sast:
+    enabled: true
+    severity_threshold: medium
+    languages: [javascript, typescript, yaml, markdown]
+  supply_chain:
+    enabled: true
+    npm:
+      disallow_known_malicious: true
+      warn_on_deprecated_major: true
+
+tests:
+  require_tests_for_code_changes: true
+  allow_no_tests_if_only_paths:
+    - '.github/**'
+    - 'docs/**'
+    - '**/*.md'
+    - '**/*.yml'
+    - '**/*.yaml'
+
+comments:
+  tone: concise_kind
+  suggestions: { enabled: true, max_per_file: 10, auto_fix_trivial: true }
+  group_similar_issues: true
+
+ci_integration:
+  require_green_checks: true
+  required_contexts:
+    - 'BR Assistant / br-assistant'
+
+ownership:
+  respect_codeowners: true
+  require_owner_approval_on_owned_paths: true
