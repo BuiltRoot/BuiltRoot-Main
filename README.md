@@ -5,3 +5,4 @@ Retest with .coderabbit.yml on main
 test
 Retest CodeRabbit with Pro config
 Testing branch protection cache
+Trigger BR Assistant on PR #5
