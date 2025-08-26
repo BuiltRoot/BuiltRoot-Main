@@ -1,79 +1,18 @@
 name: BR Assistant
 on:
   workflow_dispatch:
-  pull_request:
-    types: [opened, reopened, synchronize, ready_for_review]
   push:
-    branches: [main]          # TEMP: force a run on main to verify
+    branches: [main]   # temp to force a run on main
+
 permissions:
   contents: read
   pull-requests: write
   statuses: write
+  issues: write
 
 jobs:
   br-assistant:
-    name: br-assistant
     runs-on: ubuntu-latest
     steps:
-      # Manual runs (no PR context)
-      - name: Manual run sanity
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        run: echo "✅ Manual run OK (no PR context)."
-
-      # PR path → comment + status
-      - name: Capture PR SHA
-        if: ${{ github.event_name == 'pull_request' }}
-        id: sha
-        run: echo "sha=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
-
-      - name: Comment on PR
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ github.token }}
-        env:
-          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        script: |
-          await github.rest.issues.createComment({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: context.issue.number,
-            body: "🤖 BuiltRoot Assistant is active on this PR.\n\nRun: " + process.env.RUN_URL
-          });
-
-      - name: Publish status for PR
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ github.token }}
-        env:
-          SHA: ${{ steps.sha.outputs.sha }}
-        script: |
-          await github.rest.repos.createCommitStatus({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            sha: process.env.SHA,
-            state: "success",
-            context: "br-assistant",
-            description: "BuiltRoot Assistant status check passed (PR)",
-            target_url: "https://github.com/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId
-          })
-
-      # Push path (no PR context) → publish status so PR can see it
-      - name: Publish status for branch push
-        if: ${{ github.event_name == 'push' }}
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ github.token }}
-        env:
-          SHA: ${{ github.sha }}
-        script: |
-          await github.rest.repos.createCommitStatus({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            sha: process.env.SHA,
-            state: "success",
-            context: "br-assistant",
-            description: "BuiltRoot Assistant status check passed (push)",
-            target_url: "https://github.com/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId
-          })
+      - name: Show event
+        run: echo "Event: ${{ github.event_name }} ✅"
