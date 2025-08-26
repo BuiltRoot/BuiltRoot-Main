@@ -1,11 +1,10 @@
 name: BR Assistant
 on:
-  workflow_dispatch:          # manual run button
+  workflow_dispatch:
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
   push:
-    branches-ignore: [main]   # run on branch pushes (lets PRs see a status)
-
+    branches: [main]          # TEMP: force a run on main to verify
 permissions:
   contents: read
   pull-requests: write
