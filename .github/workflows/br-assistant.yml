@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
   push:
-    branches-ignore: [main]
+    branches-ignore: [main]   # run on branch pushes (so PR branches get a status)
 
 permissions:
   contents: read
@@ -20,6 +20,7 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: echo Manual_run_OK
 
+      # PR path → leave a comment and publish a status for the PR’s HEAD SHA
       - name: Capture PR SHA
         if: ${{ github.event_name == 'pull_request' }}
         id: sha
@@ -55,5 +56,24 @@ jobs:
             state: "success",
             context: "br-assistant",
             description: "BuiltRoot Assistant status check (PR)",
+            target_url: "https://github.com/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId
+          })
+
+      # Push path (no PR context) → publish a status on branch pushes (so PR sees it)
+      - name: Publish status for branch push
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+        env:
+          SHA: ${{ github.sha }}
+        script: |
+          await github.rest.repos.createCommitStatus({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            sha: process.env.SHA,
+            state: "success",
+            context: "br-assistant",
+            description: "BuiltRoot Assistant status check (push)",
             target_url: "https://github.com/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId
           })
