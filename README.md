@@ -9,3 +9,4 @@ Trigger BR Assistant on PR #5
 Trigger BR Assistant after switching to GITHUB_TOKEN
 Trigger BR Assistant after push run
 Trigger BR Assistant after push run
+Trigger BR Assistant after restoring PR workflow
