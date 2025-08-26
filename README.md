@@ -6,3 +6,4 @@ test
 Retest CodeRabbit with Pro config
 Testing branch protection cache
 Trigger BR Assistant on PR #5
+Trigger BR Assistant after switching to GITHUB_TOKEN
