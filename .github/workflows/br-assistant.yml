@@ -1,6 +1,8 @@
 name: BR Assistant
 on:
-  workflow_dispatch:
+  workflow_dispatch:   # manual button (ignore if missing)
+  push:
+    branches: [main]   # <-- this forces a run on any commit to main
 
 permissions:
   contents: read
