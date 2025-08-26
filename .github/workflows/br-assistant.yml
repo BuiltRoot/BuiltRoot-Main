@@ -1,8 +1,10 @@
 name: BR Assistant
 on:
-  workflow_dispatch:   # manual button (ignore if missing)
+  workflow_dispatch:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
   push:
-    branches: [main]   # <-- this forces a run on any commit to main
+    branches-ignore: [main]
 
 permissions:
   contents: read
@@ -14,5 +16,44 @@ jobs:
   br-assistant:
     runs-on: ubuntu-latest
     steps:
-      - name: Sanity
-        run: echo BR_Assistant_sanity_OK
+      - name: Manual run sanity
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: echo Manual_run_OK
+
+      - name: Capture PR SHA
+        if: ${{ github.event_name == 'pull_request' }}
+        id: sha
+        run: echo "sha=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
+
+      - name: Comment on PR
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+        env:
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        script: |
+          await github.rest.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            body: "BuiltRoot Assistant is active on this PR. Run: " + process.env.RUN_URL
+          });
+
+      - name: Publish status for PR
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+        env:
+          SHA: ${{ steps.sha.outputs.sha }}
+        script: |
+          await github.rest.repos.createCommitStatus({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            sha: process.env.SHA,
+            state: "success",
+            context: "br-assistant",
+            description: "BuiltRoot Assistant status check (PR)",
+            target_url: "https://github.com/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId
+          })
