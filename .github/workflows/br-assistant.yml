@@ -1,8 +1,6 @@
 name: BR Assistant
 on:
   workflow_dispatch:
-  push:
-    branches: [main]   # temp to force a run on main
 
 permissions:
   contents: read
@@ -14,5 +12,5 @@ jobs:
   br-assistant:
     runs-on: ubuntu-latest
     steps:
-      - name: Show event
-        run: echo "Event: ${{ github.event_name }} ✅"
+      - name: Sanity
+        run: echo BR_Assistant_sanity_OK
