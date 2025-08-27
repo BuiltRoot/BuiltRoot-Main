@@ -1,19 +1,27 @@
 name: BR Assistant (final)
+
 on:
-  push:
-    branches: [branch-protection-test]   # run on your PR branch only
-  workflow_dispatch:                     # optional manual button
+  pull_request:
+    branches: [main]                  # run whenever a PR targets main
+    types: [opened, reopened, synchronize]
+  workflow_dispatch:                   # allows manual runs
 
 permissions:
-  statuses: write
   contents: read
+  pull-requests: write
+  statuses: write
+  issues: write
 
 jobs:
-  publish-status:
-    name: br-assistant
+  br-assistant:
     runs-on: ubuntu-latest
     steps:
-      - name: Publish success status on this commit
+      - name: Manual run sanity
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: echo "✅ Manual run OK"
+
+      - name: Publish success status
+        if: ${{ github.event_name == 'pull_request' }}
         uses: actions/github-script@v7
         with:
           github-token: ${{ github.token }}
@@ -21,9 +29,9 @@ jobs:
           await github.rest.repos.createCommitStatus({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            sha: context.sha,                  // <-- head commit of this push
+            sha: context.payload.pull_request.head.sha,
             state: "success",
-            context: "br-assistant",           // <-- the status name that will show in PR checks
-            description: "BR Assistant (final) check via push",
+            context: "BR Assistant / br-assistant",    // label that shows in PR Checks
+            description: "BR Assistant (final) check passed",
             target_url: "https://github.com/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId
           })
