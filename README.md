@@ -12,3 +12,4 @@ Trigger BR Assistant after push run
 Trigger BR Assistant after restoring PR workflow
 Trigger br-assistant-final
 Trigger BR Assistant (final) on PR
+Trigger BR Assistant (final) on PR
