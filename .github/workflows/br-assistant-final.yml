@@ -1,8 +1,8 @@
 name: BR Assistant (final)
 on:
   pull_request:
-    types: [opened, reopened, synchronize]  # runs on every PR update
-  workflow_dispatch:                         # manual button if you ever need it
+    types: [opened, reopened, synchronize]  # run on every PR update
+  workflow_dispatch:                        # manual button (optional)
 
 permissions:
   contents: read
