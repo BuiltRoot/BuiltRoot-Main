@@ -14,3 +14,4 @@ Trigger br-assistant-final
 Trigger BR Assistant (final) on PR
 Trigger BR Assistant (final) on PR
 Trigger BR Assistant (final - we have a winner) on PR
+Force br-assistant status via branch push
