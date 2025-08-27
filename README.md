@@ -4,3 +4,16 @@ This is a CodeRabbit test.
 Retest with .coderabbit.yml on main
 test
 Retest CodeRabbit with Pro config
+Testing branch protection cache
+Trigger BR Assistant on PR #5
+Trigger BR Assistant after switching to GITHUB_TOKEN
+Trigger BR Assistant after push run
+Trigger BR Assistant after push run
+Trigger BR Assistant after restoring PR workflow
+Trigger br-assistant-final
+Trigger BR Assistant (final) on PR
+Trigger BR Assistant (final) on PR
+Trigger BR Assistant (final - we have a winner) on PR
+Force br-assistant status via branch push
+Trigger BR Assistant final after PR workflow fix
+Trigger minimal BR Assistant (final) check
