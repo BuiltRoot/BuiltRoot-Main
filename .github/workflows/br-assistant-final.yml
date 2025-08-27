@@ -1,9 +1,10 @@
 name: BR Assistant (final)
 on:
   pull_request:
-    types: [opened, reopened, synchronize]  # run on every PR update
-  workflow_dispatch:                        # manual button (optional)
-
+    types: [opened, reopened, synchronize]
+  push:
+    branches: [branch-protection-test]   # TEMP: trigger on your PR branch
+  workflow_dispatch:
 permissions:
   contents: read
   pull-requests: write
