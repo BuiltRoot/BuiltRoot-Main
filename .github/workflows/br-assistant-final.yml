@@ -2,36 +2,12 @@ name: BR Assistant (final)
 
 on:
   pull_request:
-    branches: [main]                  # run whenever a PR targets main
+    branches: [main]                 # runs whenever a PR targets main
     types: [opened, reopened, synchronize]
-  workflow_dispatch:                   # allows manual runs
-
-permissions:
-  contents: read
-  pull-requests: write
-  statuses: write
-  issues: write
 
 jobs:
   br-assistant:
+    name: br-assistant               # <-- this labels the PR check as “BR Assistant (final) / br-assistant”
     runs-on: ubuntu-latest
     steps:
-      - name: Manual run sanity
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        run: echo "✅ Manual run OK"
-
-      - name: Publish success status
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ github.token }}
-        script: |
-          await github.rest.repos.createCommitStatus({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            sha: context.payload.pull_request.head.sha,
-            state: "success",
-            context: "BR Assistant / br-assistant",    // label that shows in PR Checks
-            description: "BR Assistant (final) check passed",
-            target_url: "https://github.com/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId
-          })
+      - run: echo "BR Assistant check OK"
