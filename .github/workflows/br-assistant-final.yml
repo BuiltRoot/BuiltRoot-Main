@@ -1,37 +1,29 @@
 name: BR Assistant (final)
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
   push:
-    branches: [branch-protection-test]   # TEMP: trigger on your PR branch
-  workflow_dispatch:
+    branches: [branch-protection-test]   # run on your PR branch only
+  workflow_dispatch:                     # optional manual button
+
 permissions:
-  contents: read
-  pull-requests: write
   statuses: write
+  contents: read
 
 jobs:
   publish-status:
     name: br-assistant
     runs-on: ubuntu-latest
     steps:
-      - name: Resolve PR SHA
-        id: sha
-        run: echo "sha=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
-
-      - name: Publish success status on PR head
+      - name: Publish success status on this commit
         uses: actions/github-script@v7
         with:
           github-token: ${{ github.token }}
-        env:
-          SHA: ${{ steps.sha.outputs.sha }}
         script: |
           await github.rest.repos.createCommitStatus({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            sha: process.env.SHA,
+            sha: context.sha,                  // <-- head commit of this push
             state: "success",
-            context: "br-assistant",
-            description: "BuiltRoot Assistant (final) check passed",
+            context: "br-assistant",           // <-- the status name that will show in PR checks
+            description: "BR Assistant (final) check via push",
             target_url: "https://github.com/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId
-          });
+          })
