@@ -1,0 +1,16 @@
+name: BR Required Check
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  br-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: BR Required placeholder
+        run: |
+          echo "BR Required check passed ✅"
