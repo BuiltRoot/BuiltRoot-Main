@@ -11,5 +11,8 @@ jobs:
   br-check:
     runs-on: ubuntu-latest
     steps:
-      - name: Pass
-        run: echo "BR Required check passed ✅"
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: BR Required placeholder
+        run: |
+          echo "BR Required check passed ✅"
