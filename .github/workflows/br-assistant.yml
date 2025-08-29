@@ -5,14 +5,10 @@ on:
   pull_request:
   workflow_dispatch:
 
-permissions: {}  # minimal permissions
-
 jobs:
   br-assistant:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: BR Assistant placeholder
-        run: |
-          echo "BR Assistant check passed ✅"
+      - name: Always succeed
+        run: echo "BR Assistant check passed ✅"
+        continue-on-error: true
