@@ -11,5 +11,8 @@ jobs:
   br-assistant:
     runs-on: ubuntu-latest
     steps:
-      - name: Pass
-        run: echo "BR Assistant check passed ✅"
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: BR Assistant placeholder
+        run: |
+          echo "BR Assistant check passed ✅"
