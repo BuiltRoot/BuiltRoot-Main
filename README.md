@@ -2,6 +2,8 @@
 ![Uptime Ping](https://github.com/BuiltRoot/BuiltRoot-Main/actions/workflows/uptime-ping.yml/badge.svg)
 ![Branch Checks](https://github.com/BuiltRoot/BuiltRoot-Main/actions/workflows/br-assistant.yml/badge.svg) 
 ![Branch Checks](https://github.com/BuiltRoot/BuiltRoot-Main/actions/workflows/br-check.yml/badge.svg)
+🌐 [BuiltRoot Engine Live](https://built-root-main.vercel.app)  
+
 
 
 BuiltRoot's main hub for docs, templates, and shared resources
