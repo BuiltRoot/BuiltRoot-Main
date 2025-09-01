@@ -2,33 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BuiltRoot Engine</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .container {
+      background: #f5f7fa;
+      color: #222;
       text-align: center;
+      padding: 50px;
     }
     h1 {
-      color: #2ecc71;
+      color: #2c974b;
     }
-    p {
-      color: #555;
+    .box {
+      display: inline-block;
+      padding: 20px 40px;
+      border: 2px solid #2c974b;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>BuiltRoot Engine ✅</h1>
-    <p>Status: Online and responding</p>
-    <p><a href="/api/status">Check API Status</a></p>
+  <div class="box">
+    <h1>✅ BuiltRoot Engine is Running</h1>
+    <p>Deployed on Vercel · Branch: <strong>main</strong></p>
+    <p><a href="/api/status">Check Status API →</a></p>
   </div>
 </body>
 </html>
