@@ -1,35 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BuiltRoot Engine</title>
   <style>
+    :root {
+      --bg: #f5f7fa;
+      --fg: #222;
+      --card-bg: #fff;
+      --accent: #2c974b;
+      --muted: #667085;
+      --shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    [data-theme="dark"] {
+      --bg: #0e1116;
+      --fg: #e6e6e6;
+      --card-bg: #141922;
+      --accent: #36c275;
+      --muted: #98a2b3;
+      --shadow: 0 2px 8px rgba(0,0,0,0.45);
+    }
+
+    * { box-sizing: border-box }
+    html, body { height: 100% }
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      color: #222;
-      text-align: center;
-      padding: 50px;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      background: var(--bg);
+      color: var(--fg);
+      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      padding: 28px;
+    }
+
+    .card {
+      width: min(780px, 100%);
+      background: var(--card-bg);
+      border: 1px solid color-mix(in srgb, var(--fg) 12%, transparent);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 28px 28px 20px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
     h1 {
-      color: #2c974b;
+      font-size: clamp(20px, 4vw, 28px);
+      margin: 0;
+      color: var(--accent);
     }
-    .box {
-      display: inline-block;
-      padding: 20px 40px;
-      border: 2px solid #2c974b;
+    p { margin: 6px 0 0; color: var(--muted) }
+
+    .links {
+      margin-top: 16px;
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    a.button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
       border-radius: 10px;
-      background: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-decoration: none;
+      color: var(--fg);
+      border: 1px solid color-mix(in srgb, var(--fg) 16%, transparent);
+      background: color-mix(in srgb, var(--card-bg) 85%, var(--accent) 15%);
+      transition: transform .06s ease, background .2s ease, border-color .2s ease;
     }
+    a.button:hover { transform: translateY(-1px); border-color: var(--accent) }
+    .pill {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid color-mix(in srgb, var(--fg) 18%, transparent);
+      background: color-mix(in srgb, var(--card-bg) 80%, var(--accent) 20%);
+    }
+
+    /* Toggle */
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+    }
+    .switch {
+      width: 46px; height: 26px;
+      background: color-mix(in srgb, var(--fg) 18%, transparent);
+      border-radius: 999px;
+      position: relative;
+      cursor: pointer;
+    }
+    .knob {
+      position: absolute; top: 3px; left: 3px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      transition: left .20s ease, background .2s ease;
+    }
+    [data-theme="dark"] .knob { left: 23px }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>✅ BuiltRoot Engine is Running</h1>
-    <p>Deployed on Vercel · Branch: <strong>main</strong></p>
-    <p><a href="/api/status">Check Status API →</a></p>
+  <div class="card">
+    <div class="row">
+      <div>
+        <h1>✅ BuiltRoot Engine is Running</h1>
+        <p>Deployed on Vercel · Branch <span class="pill">main</span></p>
+      </div>
+
+      <!-- Theme toggle -->
+      <div class="toggle" id="themeToggle" aria-label="Toggle theme" role="button" tabindex="0">
+        <span id="modeLabel">Light</span>
+        <div class="switch"><div class="knob"></div></div>
+      </div>
+    </div>
+
+    <div class="links" style="margin-top:18px">
+      <a class="button" href="/api/status">/api/status — heartbeat</a>
+      <a class="button" href="/api/auth">/api/auth — placeholder</a>
+      <a class="button" href="/api/projects">/api/projects — list</a>
+      <a class="button" href="/api/monitor">/api/monitor — metrics</a>
+      <a class="button" href="/api/diagnostics">/api/diagnostics — snapshot</a>
+      <a class="button" href="https://github.com/BuiltRoot/BuiltRoot-Main" target="_blank" rel="noopener">GitHub Repo</a>
+    </div>
   </div>
+
+  <script>
+    // Persist theme in localStorage
+    const root = document.documentElement;
+    const saved = localStorage.getItem("br-theme");
+    if (saved === "dark" || (saved === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      root.setAttribute("data-theme", "dark");
+    }
+
+    const toggle = document.getElementById("themeToggle");
+    const label = document.getElementById("modeLabel");
+
+    function syncLabel() {
+      const dark = root.getAttribute("data-theme") === "dark";
+      label.textContent = dark ? "Dark" : "Light";
+    }
+    syncLabel();
+
+    function flipTheme() {
+      const current = root.getAttribute("data-theme");
+      const next = current === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      localStorage.setItem("br-theme", next);
+      syncLabel();
+    }
+
+    toggle.addEventListener("click", flipTheme);
+    toggle.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flipTheme(); }
+    });
+  </script>
 </body>
 </html>
