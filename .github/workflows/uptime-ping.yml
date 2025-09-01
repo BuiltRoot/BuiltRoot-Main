@@ -3,7 +3,7 @@ name: Uptime Ping (/api/status)
 on:
   schedule:
     - cron: "*/10 * * * *"   # every 10 minutes
-  workflow_dispatch:         # still lets you run it manually
+  workflow_dispatch:         # still lets you run manually
 
 jobs:
   ping:
@@ -11,15 +11,4 @@ jobs:
     steps:
       - name: Call /api/status
         run: |
-          set -e
-          curl -sS https://built-root-main.vercel.app/api/status | head -c 200
-
-        run: |
-          echo "Pinging $PING_URL"
-          # Call the endpoint; capture body + HTTP code
-          HTTP_CODE=$(curl -sS -m 15 -w "%{http_code}" -o /tmp/resp "$PING_URL" || true)
-          echo "HTTP_CODE=$HTTP_CODE"
-          echo "Response (first 200 chars):"
-          head -c 200 /tmp/resp || true
-          # Fail the job if not 200
-          test "$HTTP_CODE" = "200"
+          curl -sS https://built-root-main.vercel.app/api/status || exit 1
