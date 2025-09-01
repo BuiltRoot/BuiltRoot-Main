@@ -1,4 +1,6 @@
 # BuiltRoot-Main
+![Uptime Ping](https://github.com/BuiltRoot/BuiltRoot-Main/actions/workflows/uptime-ping.yml/badge.svg)
+
 BuiltRoot's main hub for docs, templates, and shared resources
 This is a CodeRabbit test.
 Retest with .coderabbit.yml on main
