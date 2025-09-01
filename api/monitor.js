@@ -1,5 +1,5 @@
-// /api/monitor.js
-module.exports = (req, res) => {
+// api/monitor.js
+export default function handler(req, res) {
   const mem = process.memoryUsage();
   res.status(200).json({
     uptime_seconds: Math.round(process.uptime()),
@@ -10,6 +10,6 @@ module.exports = (req, res) => {
       external: mem.external
     },
     ok: true,
-    note: "Monitoring placeholder ✅"
+    ts: new Date().toISOString()
   });
-};
+}
