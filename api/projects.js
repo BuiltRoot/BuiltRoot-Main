@@ -1,5 +1,5 @@
-// /api/projects.js
-module.exports = (req, res) => {
+// api/projects.js
+export default function handler(req, res) {
   res.status(200).json({
     projects: [
       "SafeGA",
@@ -7,6 +7,7 @@ module.exports = (req, res) => {
       "WisdomTeeth.care",
       "DentalHire",
       "OralSurgeryCenterOfSeattle (clone)"
-    ]
+    ],
+    ts: new Date().toISOString()
   });
-};
+}
